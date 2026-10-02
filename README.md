@@ -10,6 +10,27 @@
 bash <(curl -fsSL https://raw.githubusercontent.com/ylx2016/Linux-NetSpeed/master/tcpx.sh)
 ```
 
+### Alpine arm64 精简版
+
+Alpine arm64/aarch64 使用独立的 sysctl 版本。它只加载当前内核已经提供的
+`tcp_bbr`、`sch_fq` 模块并配置 BBR+FQ 与保守的网络参数，不下载或更换内核，
+也不修改 bootloader：
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/ashkorehennessy/Linux-NetSpeed/master/alpine-bbr-fq.sh -o alpine-bbr-fq.sh
+doas sh alpine-bbr-fq.sh apply
+```
+
+查看状态或移除本脚本管理的配置：
+
+```sh
+doas sh alpine-bbr-fq.sh status
+doas sh alpine-bbr-fq.sh remove
+```
+
+如果系统缺少 `modprobe`，先执行 `apk add kmod`。脚本不会在不支持 BBR 的
+内核上写入伪成功配置。
+
 安装后可直接输入 `tcpx` 再次调起菜单。
 
 ### 使用提示
@@ -120,5 +141,4 @@ ylx2016 与 chiakge、cx9208 无任何关系。
 - [agentrouter](https://agentrouter.org/register?aff=d3mq)
 
 相关工具：[搬瓦工在线库存查询](https://bwg.ylx.me/)
-
 
